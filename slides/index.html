@@ -1,58 +1,202 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html lang="en">
 
-		<title>reveal.js</title>
+<head>
+<meta charset="utf-8">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+<title>inimda</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-        	<link href="../css/styles.css" rel="stylesheet" />
-	</head>
-	<body>
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="../index.html">inimda - 𒅗𒁕 </a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </nav>
-	<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2
-						<aside class="notes">
-						<p>Some notes</p>
-						</aside>
-						<p>Some slide text</p>
-						<aside class="notes">
-						<p>and some more notes</p>
-					</aside>
-				</section>
-			</div>
-		</div>
+<meta name="description" content="Working with computers naturally">
+<meta name="author" content="Hakim El Hattab">
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="dist/reset.css">
+<link rel="stylesheet" href="dist/reveal.css">
+<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+<!-- Theme used for syntax highlighting of code -->
+<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+<section>
+<h2>Inimda - 𒅗𒁕</h2>
+<p>
+Working with computers naturally
+</p>
+</section>
+<section>
+<h2>UX is hard</h2>
+<p>
+<img src="tip.png">
+<br>
+<small>- Libreoffice</small>
+</p>
+<p class="fragment">This seems crazy, how did this happen?</p>
+</section>
+
+<section>
+<h2>UX is hard</h2>
+<p>You want people to be able to do powerful things with your software</p>
+<p class="fragment">You want the UI to be intuitive and discoverable</p>
+<br>
+<p class="fragment">These wishes are (nearly always) in conflict.
+</section>
+<section>
+<h2>UX is hard</h2>
+<p>Either certain things become buried deep in a nest of menus, unknown and unused</p>
+<p class="fragment">Or features that would be easy to implement are left out, and become impossible</p>
+</section>
+
+<section>
+<h2>Inimda wants to solve this</h2>
+<img src="picard.webp" class="r-stretch">
+<small>"Computer, put scrollbar on the left"</small>
+<p>We say <em>everything</em> should be this easy</p>
+</section>
+<section>
+<p>
+Inimda is a natural-language processor and code-generator, that understands context, and knows APIs
+</p>
+<p>
+It translates on-the-fly <ul><li class="fragment">what people want to do,</li>
+<li class="fragment">into the code required to do it,</li>
+<li class="fragment">and runs it</li>
+</p>
+</section>
+<section>
+<h2>Hang on, isn't this just Siri?</h2>
+<p>
+Virtual assistants are great, they have a limited, prewritten set of capabilities
+<p>
+<p class="fragment">
+If what you want to do hasn't been programmed in, it isn't going to happen
+</p>
+<p class="fragment">
+Inimda writes its own capabilities as you ask for them
+</p>
+</section>
+<section>
+<h2> How does Inimda work?</h2>
+<ul>
+<li>User gives a command in text, or speech converted to text</li>
+<li class="fragment">Search through its API library to find relevant functions</li>
+<li class="fragment">Use NLP to break down command into detailed sub-tasks</li>
+<li class="fragment">Use guided code-generation to create code calling those APIs</li>
+<li class="fragment">Checks and runs</li>
+</ul>
+</section>
+<section>
+<h2>Example</h2>
+<p>
+Let's look at a small example of using Inimda, if we were building a virtual assistant.
+</p>
+<p>
+Our library of APIs will be the Python standard library, and a handful of application specific functions, let's let inimda handle the rest.
+</p>
+</section>
+<section>
+<h2>Example - Input</h2>
+<q>set an alarm for 7:30 tomorrow</q>
+<p class="fragment">Inimda processes this to</p>
+<pre class="fragment">
+            TOP                                       
+            |                                         
+            S                                        
+            |                                         
+            VP                                       
+____________|_________                                
+|                    VP|<NP-PP-NP>                        
+|        ______________|_______________                
+|       |                            VP|<PP-NP>         
+|       |                        ______|_________      
+|       |                       PP               |    
+|       |               ________|______          |     
+|       NP             |               NP        NP   
+|    ___|____          |               |         |     
+_   _        _         _               _         _    
+|   |        |         |               |         |     
+set  an     alarm      for             7:30    tomorrow
+</pre>
+</section>
+<section>
+<h2>Example - API search</h2>
+<p>
+Inimda decides it will probably need following apis
+<pre><code style="font-size:13px" class="hlpy" data-trim data-line-numbers>
+def assistant_schedule_at(time: datetime.datetime, f: Callable[[], None]) -> None:
+    """
+    Schedules the function f to be run at the given time (provided by our application)
+    """
+    pass
+
+def assistant_alarm() -> None:
+    """
+    Function that sounds an alarm when run (provided by our application)
+    """
+    pass
+
+datetime.datetime.replace  # standard library functions
+...
+</code></pre>
+</p>
+</section>
+<section>
+<h2>Example - code generation</h2>
+<p>
+Inimda generates
+
+<pre><code class="hlpy" data-trim data-line-numbers>
+tomorrow = datetime.datetime.now() + 
+               datetime.timedelta(days=1)
+tomorrow_time = tomorrow.replace(hour=7, minute=30,
+                                 second=0, microsecond=0)
+assistant_schedule_at(tomorrow_time, assistant_alarm)
+</code></pre>
+</p>
+No template, no pre-written capability, just the APIs
+</section>
+<section>
+<p>
+Inimda allows the user to interact naturally with an application, without preprogramming and describing what action are possible.
+</p>
+<a href="mailto:info@inimda.com">Contact us</a>
+</section>
+
+	</div>
+
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/zoom/zoom.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/search/search.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+
+	// Also available as an ES module, see:
+	// https://revealjs.com/initialization/
+	Reveal.initialize({
+controls: true,
+progress: true,
+center: true,
+hash: true,
+
+// Learn about plugins: https://revealjs.com/plugins/
+plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+});
+
+</script>
+
+</body>
 </html>
